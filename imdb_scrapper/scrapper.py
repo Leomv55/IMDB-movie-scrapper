@@ -11,7 +11,7 @@ class IMDBScrapper:
     def scrap_movie_ids(self, response):
         movie_ids = []
         soup = BeautifulSoup(response.text, "html.parser")
-        all_movie_tags = soup.find_all("a", attrs={"class": "ipc-metadata-list-summary-item__t", "href": re.compile("title")})
+        all_movie_tags = soup.find_all("a", attrs={"class": "ipc-title-link-wrapper", "href": re.compile("title")})
 
         for tag in all_movie_tags:
             try:
@@ -60,4 +60,4 @@ class IMDBScrapper:
 
         except Exception:
             stdlogger.exception(f"unable to scrap movie details for movie url: {response.url}")
-            return movie
+            return {}

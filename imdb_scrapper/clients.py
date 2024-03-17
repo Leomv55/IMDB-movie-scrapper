@@ -11,7 +11,7 @@ class IMDBApiClient:
         self.headers = config["headers"]
 
     def search(self, query):
-        search_url = f"{self.base_url}/find/?q={query}"
+        search_url = f"{self.base_url}/search/title/?title={query}"
         response = requests.get(search_url, headers=self.headers)
         return response
 
