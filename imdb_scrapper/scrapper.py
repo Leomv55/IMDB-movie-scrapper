@@ -59,5 +59,9 @@ class IMDBScrapper:
             return movie
 
         except Exception:
-            stdlogger.exception(f"unable to scrap movie details for movie url: {soup.find('title').text}")
+            error_message = "unable to scrap movie details"
+            title = soup.find("title")
+            if title:
+                error_message += f" for movie url: {title.text}"
+            stdlogger.exception(error_message)
             return {}
