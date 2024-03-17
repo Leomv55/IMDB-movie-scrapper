@@ -89,6 +89,31 @@ class IMDBScrapperTest(TestCase):
         }
         self.assertEqual(movie_details_1, movie_details_2)
 
+        plot_element = '''<p data-testid="plot" class="sc-466bb6c-3 fOUpWp"><span role="presentation" data-testid="plot-xs_to_m" class="sc-466bb6c-0 hlbAws">Steven Matrix is one of the underworld&#x27;s foremost hitmen until his luck runs out, and someone puts a contract out on him. Shot in the forehead by a .22 pistol, Matrix &quot;dies&quot; and finds himsel...<!-- --> <a class="ipc-link ipc-link--baseAlt" role="button" tabindex="0" aria-disabled="false" data-testid="plot-read-all-link" href="plotsummary?ref_=tt_ov_pl">Read all</a></span><span role="presentation" data-testid="plot-l" class="sc-466bb6c-1 dWufeH">Steven Matrix is one of the underworld&#x27;s foremost hitmen until his luck runs out, and someone puts a contract out on him. Shot in the forehead by a .22 pistol, Matrix &quot;dies&quot; and finds himself in &quot;The City In Between&quot;, where he is shown the faces of all the men and women he&#x27;s murd...<!-- --> <a class="ipc-link ipc-link--baseAlt" role="button" tabindex="0" aria-disabled="false" data-testid="plot-read-all-link" href="plotsummary?ref_=tt_ov_pl">Read all</a></span><span role="presentation" data-testid="plot-xl" class="sc-466bb6c-2 chnFO">Steven Matrix is one of the underworld&#x27;s foremost hitmen until his luck runs out, and someone puts a contract out on him. Shot in the forehead by a .22 pistol, Matrix &quot;dies&quot; and finds himself in &quot;The City In Between&quot;, where he is shown the faces of all the men and women he&#x27;s murdered and a sea of fire. He&#x27;s informed that he will be given a second chance. He must earn ...<!-- --> <a class="ipc-link ipc-link--baseAlt" role="button" tabindex="0" aria-disabled="false" data-testid="plot-read-all-link" href="plotsummary?ref_=tt_ov_pl">Read all</a></span></p> '''
+        response_text = original_response_text
+        response_text_without_plot = response_text.replace(plot_element, "")
+        movie_details_1 = self.scrapper.scrap_movie_details(response_text_without_plot)
+        movie_details_2 = {
+            "title": "Matrix",
+            "release_date": "1993",
+            "ratings": "7.5",
+            "directors": [],
+            "cast": [
+                "Nick Mancuso",
+                "Phillip Jarrett",
+                "Carrie-Anne Moss"
+            ],
+            "plot_summary": ""
+        }
+        self.assertEqual(movie_details_1, movie_details_2)
+
+        title_element = '''<span class="hero__primary-text" data-testid="hero__primary-text">Matrix</span>'''
+        response_text = original_response_text
+        response_text_without_title = response_text.replace(title_element, "")
+        movie_details_1 = self.scrapper.scrap_movie_details(response_text_without_title)
+        movie_details_2 = {}  # Title is mandatory
+        self.assertEqual(movie_details_1, movie_details_2)
+
 
 class IMDBClientTest(TestCase):
     def setUp(self):
