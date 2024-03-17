@@ -1,9 +1,10 @@
+import aiohttp
 import requests
 
 from .config import IMDB_CONFIG
 
 
-class IMDBApiClient:
+class IMDBClient:
 
     def __init__(self, imdb_config={}):
         config = imdb_config or IMDB_CONFIG
@@ -13,9 +14,21 @@ class IMDBApiClient:
     def search(self, query):
         search_url = f"{self.base_url}/search/title/?title={query}"
         response = requests.get(search_url, headers=self.headers)
-        return response
+        return response.text
 
-    def get_movie(self, movie_id):
+    def get_movie_details(self, movie_id):
         movie_url = f"{self.base_url}/title/{movie_id}"
         response = requests.get(movie_url, headers=self.headers)
-        return response
+        return response.text
+
+    async def search_async(self, query):
+        search_url = f"{self.base_url}/search/title/?title={query}"
+        async with aiohttp.ClientSession(headers=self.headers) as session:
+            async with session.get(search_url) as response:
+                return await response.text()
+
+    async def get_movie_details_async(self, movie_id):
+        movie_url = f"{self.base_url}/title/{movie_id}"
+        async with aiohttp.ClientSession(headers=self.headers) as session:
+            async with session.get(movie_url) as response:
+                return await response.text()
