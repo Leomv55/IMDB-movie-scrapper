@@ -2,6 +2,7 @@ import aiohttp
 import requests
 
 from .config import IMDB_CONFIG
+from .exceptions import IMDBRequestException
 
 
 class IMDBClient:
@@ -14,11 +15,21 @@ class IMDBClient:
     def search(self, query):
         search_url = f"{self.base_url}/search/title/?title={query}"
         response = requests.get(search_url, headers=self.headers)
+        if response.status_code != 200:
+            raise IMDBRequestException(
+                "Error while fetching movie list",
+                status_code=response.status_code
+            )
         return response.text
 
     def get_movie_details(self, movie_id):
         movie_url = f"{self.base_url}/title/{movie_id}"
         response = requests.get(movie_url, headers=self.headers)
+        if response.status_code != 200:
+            raise IMDBRequestException(
+                "Error while fetching movie details",
+                status_code=response.status_code
+            )
         return response.text
 
     async def search_async(self, query):

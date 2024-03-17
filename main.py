@@ -3,6 +3,7 @@ import logging
 import asyncio
 
 from imdb_scrapper.controller import IMDBController
+from imdb_scrapper.exceptions import IMDBRequestException
 from imdb_scrapper.utils import write_to_json
 
 logging.basicConfig(level=logging.INFO)
@@ -17,14 +18,18 @@ async def main():
     controller = IMDBController()
 
     stdlogger.info(f"Searching for '{args.query}' in IMDB ...")
-    movie_ids = await controller.get_movie_ids_async(args.query)
-    stdlogger.info(f"Found {len(movie_ids)} movies for '{args.query}'")
+    try:
+        movie_ids = await controller.get_movie_ids_async(args.query)
+        stdlogger.info(f"Found {len(movie_ids)} movies for '{args.query}'")
 
-    movie_details = await asyncio.gather(*[
-        controller.get_movie_details_async(movie_id)
-        for movie_id in movie_ids
-    ])
-    movie_details = [movie_detail for movie_detail in movie_details if movie_detail]
+        movie_details = await asyncio.gather(*[
+            controller.get_movie_details_async(movie_id)
+            for movie_id in movie_ids
+        ])
+        movie_details = [movie_detail for movie_detail in movie_details if movie_detail]
+    except IMDBRequestException as e:
+        stdlogger.error(e)
+        return
 
     try:
         movie_file = write_to_json(movie_details)
