@@ -10,6 +10,7 @@
 - [Features](#features)
 - [Installation](#installation)
 - [Usage](#usage)
+- [Example](#example)
 - [Contributing](#contributing)
 - [License](#license)
 
@@ -29,6 +30,29 @@ The IMDB Scraper is a Python script that allows you to scrape movie data from th
 ## Usage
 1. Run the script: `pyenv run python main.py "<query>"`, where `<query>` is the movie title you want to search for.
 3. The script will scrape the data and save it in `output` dir.
+
+
+## Example
+Sample output:
+
+```
+[
+    {
+        "title": "The Shawshank Redemption",
+        "rating": "9.3",
+        "director": ["Frank Darabont"],
+        "cast": [
+            "Tim Robbins",
+            "Morgan Freeman",
+            "Bob Gunton",
+            "William Sadler"
+        ]
+    },...
+]
+```
+
+Recording:
+<img src="./assets/recording.gif"></img>
 
 ## Contributing
 Contributions are welcome! If you have any suggestions, bug reports, or feature requests, please open an issue or submit a pull request.
