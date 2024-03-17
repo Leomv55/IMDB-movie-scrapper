@@ -28,8 +28,9 @@ The IMDB Scraper is a Python script that allows you to scrape movie data from th
 2. Install the required dependencies: `pip3 install pipenv && pipenv install`
 
 ## Usage
-1. Run the script: `pyenv run python main.py "<query>"`, where `<query>` is the movie title you want to search for.
-3. The script will scrape the data and save it in `output` dir.
+1. Run the script: `pipenv run python main.py "<query>"`, where `<query>` is the movie title you want to search for.
+2. The script will scrape the data and save it in `output` dir.
+3. To run the tests: `pipenv run python tests.py`
 
 
 ## Example
