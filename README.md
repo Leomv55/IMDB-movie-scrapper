@@ -1,8 +1,7 @@
 # IMDb Scraper
-<div style="height:30px">
-<img src="./assets/IMDB_logo.png"></img>
-<span style="margin:10px;">+</span>
-<img src="./assets/Python_logo.png"></img>
+<div>
+<img src="./assets/IMDB_logo.png" width="50"></img>
+<img src="./assets/Python_logo.png" width="30"></img>
 </div>
 
 
