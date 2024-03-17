@@ -42,15 +42,28 @@ class IMDBScrapper:
 
             rating_element = soup.find("div", attrs={"data-testid": "hero-rating-bar__aggregate-rating__score"})
             if rating_element:
-                movie["ratings"] = rating_element.find("span").text
+                actual_rating = rating_element.find("span")
+                if actual_rating:
+                    try:
+                        movie["ratings"] = str(float(actual_rating.text))
+                    except ValueError:
+                        pass
 
             directors_section = soup.find('span', text='Directors')
             if directors_section:
-                movie["directors"] = [director.text for director in directors_section.parent.find_all("a", attrs={"class": "ipc-metadata-list-item__list-content-item ipc-metadata-list-item__list-content-item--link", "href": re.compile("name")})]
+                movie["directors"] = [
+                    director.text
+                    for director in directors_section.parent.find_all("a", attrs={"class": "ipc-metadata-list-item__list-content-item ipc-metadata-list-item__list-content-item--link", "href": re.compile("name")})
+                    if director and director.text
+                ]
 
             casts_section = soup.find('a', text='Stars')
             if casts_section:
-                movie["cast"] = [cast.text for cast in casts_section.parent.find_all("a", attrs={"class": "ipc-metadata-list-item__list-content-item ipc-metadata-list-item__list-content-item--link", "href": re.compile("name")})]
+                movie["cast"] = [
+                    cast.text
+                    for cast in casts_section.parent.find_all("a", attrs={"class": "ipc-metadata-list-item__list-content-item ipc-metadata-list-item__list-content-item--link", "href": re.compile("name")})
+                    if cast and cast.text
+                ]
 
             plot_summary = soup.find("span", attrs={"data-testid": "plot-l"})
             if plot_summary:
