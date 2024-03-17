@@ -16,8 +16,8 @@ async def main():
     args = parser.parse_args()
 
     controller = IMDBController()
-
     stdlogger.info(f"Searching for '{args.query}' in IMDB ...")
+
     try:
         movie_ids = await controller.get_movie_ids_async(args.query)
         stdlogger.info(f"Found {len(movie_ids)} movies for '{args.query}'")
@@ -27,6 +27,7 @@ async def main():
             for movie_id in movie_ids
         ])
         movie_details = [movie_detail for movie_detail in movie_details if movie_detail]
+
     except IMDBRequestException as e:
         stdlogger.error(e)
         return
