@@ -38,15 +38,19 @@ Sample output:
 ```
 [
     {
-        "title": "The Shawshank Redemption",
-        "rating": "9.3",
-        "director": ["Frank Darabont"],
+        "title": "The Matrix",
+        "release_date": "1999",
+        "ratings": "8.7",
+        "directors": [
+            "Lana Wachowski",
+            "Lilly Wachowski"
+        ],
         "cast": [
-            "Tim Robbins",
-            "Morgan Freeman",
-            "Bob Gunton",
-            "William Sadler"
-        ]
+            "Keanu Reeves",
+            "Laurence Fishburne",
+            "Carrie-Anne Moss"
+        ],
+        "plot_summary": "When a beautiful stranger leads computer hacker Neo to a forbidding underworld, he discovers the shocking truth--the life he knows is the elaborate deception of an evil cyber-intelligence."
     },...
 ]
 ```
