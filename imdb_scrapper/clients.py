@@ -36,10 +36,20 @@ class IMDBClient:
         search_url = f"{self.base_url}/search/title/?title={query}"
         async with aiohttp.ClientSession(headers=self.headers) as session:
             async with session.get(search_url) as response:
+                if response.status != 200:
+                    raise IMDBRequestException(
+                        "Error while fetching movie list",
+                        status_code=response.status
+                    )
                 return await response.text()
 
     async def get_movie_details_async(self, movie_id):
         movie_url = f"{self.base_url}/title/{movie_id}"
         async with aiohttp.ClientSession(headers=self.headers) as session:
             async with session.get(movie_url) as response:
+                if response.status != 200:
+                    raise IMDBRequestException(
+                        "Error while fetching movie details",
+                        status_code=response.status
+                    )
                 return await response.text()
